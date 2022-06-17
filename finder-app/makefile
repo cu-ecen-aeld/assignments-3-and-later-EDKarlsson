@@ -1,17 +1,24 @@
 CC = gcc
-CLFAGS = -g -Wall
+CFLAGS = -Wall -g 
 
-INCLUDES =
+#INCLUDES=
+
+SRCS = writer.c
+
+OBJS = $(SRCS:.c=.o)
 
 MAIN = writer
 
 .PHONY: clean
 
-default: $(MAIN)
+all:	$(MAIN)
 	@echo Finished compiling writer utility
 
-.c.o:
-	$(CC) $(CFLAGS) $(INCLUDES) -c $< -o $@
+$(MAIN):	$(OBJS)
+	$(CC) $(CFLAGS) -o $(MAIN) $(OBJS)
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
 
 clean:
 	$(RM) *.o *~ $(MAIN)
