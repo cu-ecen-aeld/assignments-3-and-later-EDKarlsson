@@ -1,15 +1,15 @@
-CC = gcc
+CC = ${CROSS_COMPILE}gcc
 CFLAGS = -Wall -g 
 
 #INCLUDES=
+
+.PHONY: all clean
 
 SRCS = writer.c
 
 OBJS = $(SRCS:.c=.o)
 
 MAIN = writer
-
-.PHONY: clean
 
 all:	$(MAIN)
 	@echo Finished compiling writer utility
@@ -22,3 +22,6 @@ $(MAIN):	$(OBJS)
 
 clean:
 	$(RM) *.o *~ $(MAIN)
+
+run: all
+	./writer
