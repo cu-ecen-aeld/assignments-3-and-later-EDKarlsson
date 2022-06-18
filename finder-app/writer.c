@@ -43,12 +43,17 @@ int main(int argc, char *argv[]) {
     }
 
     nr = write(fd, argv[2], strlen(argv[2]));
-    if (nr == 1) {
+    if (nr == -1) {
         syslog(LOG_ERR, "Failed to write to file.");
         return 1;
     }
 
     syslog(LOG_DEBUG, "Writing %s to %s.", argv[2], argv[1]);
+    if (close(fd) == -1) {
+        perror("close");
+        syslog(LOG_ERR, "Failed to close file.");
+        return 1;
+    }
 
     return 0;
 }
