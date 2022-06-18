@@ -28,7 +28,7 @@ int main(int argc, char *argv[]) {
     int fd;
     ssize_t nr;
 
-    openlog("Writer App", LOG_PERROR, LOG_USER);
+    openlog("Writer", LOG_PERROR, LOG_USER);
 
     if(argc < 3) {
         syslog(LOG_ERR, "Not enough arguments provided"); 
@@ -47,6 +47,8 @@ int main(int argc, char *argv[]) {
         syslog(LOG_ERR, "Failed to write to file.");
         return 1;
     }
+
+    syslog(LOG_DEBUG, "Writing %s to %s.", argv[2], argv[1]);
 
     return 0;
 }
