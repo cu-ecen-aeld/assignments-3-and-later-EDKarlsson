@@ -16,7 +16,10 @@ bool do_system(const char *cmd)
  *   and return a boolean true if the system() call completed with success
  *   or false() if it returned a failure
 */
-
+    int res = system(cmd);
+    if(res == -1 || res == 127) {
+        return false;
+    }
     return true;
 }
 
@@ -47,7 +50,7 @@ bool do_exec(int count, ...)
     command[count] = NULL;
     // this line is to avoid a compile warning before your implementation is complete
     // and may be removed
-    command[count] = command[count];
+    //command[count] = command[count];
 
 /*
  * TODO:
@@ -58,6 +61,26 @@ bool do_exec(int count, ...)
  *   as second argument to the execv() command.
  *
 */
+    pid_t pid;
+    pid = fork();
+    if (pid > 0) {
+        printf("parent of pid=%d!\n", pid);
+    }
+    else if (!pid) {
+        printf("child!\n\n");
+        printf("cmd[0]=%s, ", command[0]);
+        printf("cmd[1]=%s, ", command[1]);
+        printf("cmd[2]=%s\n\n", command[2]);
+
+        int ret = execv(command[0],command);
+        if(ret == -1){
+            return false;
+        }
+    }
+    else if (pid == -1) {
+        perror("fork");
+    }
+
 
     va_end(args);
 
